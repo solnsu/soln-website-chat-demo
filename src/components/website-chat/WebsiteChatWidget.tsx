@@ -1,12 +1,15 @@
 'use client';
 
 import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { MessageCircle, X } from 'lucide-react';
 import { ConfigProvider, Popover } from 'antd';
+import { useChatCompactComposer } from '@soln/chat-ui';
 import type { WebsiteChatCopy } from '@/lib/website-chat-copy';
 import type { WebsiteChatConfig } from '@/lib/website-chat-config';
 import { websiteChatTheme } from './website-chat-theme';
 import { WebsiteChatScrollBoundary } from './WebsiteChatScrollBoundary';
+import { useWebsiteChatMobileViewport } from './useWebsiteChatMobileViewport';
 import styles from './WebsiteChatWidget.module.css';
 
 const WebsiteChatPanel = lazy(() => import('./WebsiteChatPanel'));
@@ -15,6 +18,9 @@ export default function WebsiteChatWidget({ config, copy, locale }: {
   config: WebsiteChatConfig | null; copy: WebsiteChatCopy; locale: string;
 }) {
   const [open, setOpen] = useState(false), [started, setStarted] = useState(false);
+  const mobile = useChatCompactComposer();
+  const mobileLayer = useRef<HTMLDivElement>(null);
+  useWebsiteChatMobileViewport(mobile && open, mobileLayer);
   const [timeGreeting, setTimeGreeting] = useState<keyof WebsiteChatCopy['timeGreetings'] | null>(null);
   useEffect(() => {
     if (!open) return;
@@ -29,26 +35,34 @@ export default function WebsiteChatWidget({ config, copy, locale }: {
   }, [open]);
   const title = timeGreeting ? copy.timeGreetings[timeGreeting] : copy.title;
   const launcher = useRef<HTMLButtonElement>(null);
-  const close = () => { setOpen(false); launcher.current?.focus({ preventScroll: true }); };
-  const content = <section id="website-support-chat" role="dialog" aria-modal="false" aria-label={title}
+  const close = () => { setOpen(false); requestAnimationFrame(() => launcher.current?.focus({ preventScroll: true })); };
+  const content = <section id="website-support-chat" role="dialog" aria-modal={mobile} aria-label={title}
       data-lenis-prevent data-website-chat className={`${styles.widget} ${styles.panel}`} onKeyDown={event => {
         if (event.key === 'Escape') { event.stopPropagation(); close(); }
       }}>
       <header className={styles.header}>
         <strong>{title}</strong>
+        {mobile ? <button type="button" data-chat-close className={styles.close} aria-label={copy.close} onClick={close}><X size={24} /></button> : null}
       </header>
       {started && (config ? <Suspense fallback={null}>
-        <WebsiteChatPanel key={`${config.runtimeOrigin}:${config.entryId}`} config={config} active={open} copy={copy} locale={locale} />
+        <WebsiteChatPanel key={`${config.runtimeOrigin}:${config.entryId}`} config={config} active={open} copy={copy} locale={locale} mobile={mobile} />
       </Suspense> : <p role="status" className={styles.empty}>{copy.unavailable}</p>)}
     </section>;
-  return <ConfigProvider theme={websiteChatTheme}><Popover content={<WebsiteChatScrollBoundary>{content}</WebsiteChatScrollBoundary>} trigger="click" placement="topRight" arrow={false} open={open} fresh destroyOnHidden={false}
+  const button = <button type="button" ref={launcher} className={`${styles.widget} ${styles.launcher}`} aria-label={open ? copy.close : copy.open}
+    data-website-chat title={open ? copy.close : copy.open} aria-expanded={open} hidden={mobile && open}
+    aria-controls={started ? 'website-support-chat' : undefined}
+    onClick={mobile ? () => { setStarted(true); setOpen(true); } : undefined}>
+    {open ? <X size={25} /> : <MessageCircle size={25} />}
+  </button>;
+  return <ConfigProvider theme={websiteChatTheme}>{mobile ? <>
+    {button}
+    {started ? createPortal(<div ref={mobileLayer} className={styles.mobileLayer} hidden={!open}>
+      <WebsiteChatScrollBoundary className={styles.mobileBoundary}>{content}</WebsiteChatScrollBoundary>
+    </div>, document.body) : null}
+  </> : <Popover content={<WebsiteChatScrollBoundary>{content}</WebsiteChatScrollBoundary>} trigger="click" placement="topRight" arrow={false} open={open} fresh destroyOnHidden={false}
     zIndex={101} color="#171717"
     styles={{ container: { padding: 0, borderRadius: 20, background: '#171717', color: '#f5f5f5', overflow: 'hidden' } }}
     onOpenChange={nextOpen => { if (nextOpen) setStarted(true); setOpen(nextOpen); }}>
-    <button type="button" ref={launcher} className={`${styles.widget} ${styles.launcher}`} aria-label={open ? copy.close : copy.open}
-      data-website-chat title={open ? copy.close : copy.open} aria-expanded={open}
-      aria-controls={started ? 'website-support-chat' : undefined}>
-      {open ? <X size={25} /> : <MessageCircle size={25} />}
-    </button>
-  </Popover></ConfigProvider>;
+    {button}
+  </Popover>}</ConfigProvider>;
 }

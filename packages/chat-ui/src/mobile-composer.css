@@ -1,0 +1,124 @@
+.tenant-chat-composer--mobile .soln-base-composer-shell {
+  --chat-input-row: 2;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr) 42px 56px;
+  align-items: end;
+  gap: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.tenant-chat-composer--mobile .soln-base-composer-shell:focus-within {
+  box-shadow: none;
+}
+
+.tenant-chat-composer--mobile .soln-base-composer-shell:not(:has(.soln-base-composer-attach)):not([data-chat-composer-voice="true"]) {
+  grid-template-columns: 0 minmax(0, 1fr) 42px 56px;
+}
+
+/* Closed conversations render a single notice; let it span the whole row. */
+.tenant-chat-composer--mobile .tenant-chat-composer__closed {
+  grid-column: 1 / -1;
+}
+
+.tenant-chat-composer--mobile .soln-base-composer-send {
+  grid-column: 4;
+  grid-row: var(--chat-input-row);
+  width: 44px;
+  height: 30px;
+  margin: 8px 8px 8px 4px;
+  border-radius: 999px;
+  padding: 0;
+}
+
+.tenant-chat-composer--mobile .soln-base-composer-shell::before {
+  content: "";
+  z-index: -1;
+  align-self: stretch;
+  grid-column: 2 / -1;
+  grid-row: var(--chat-input-row);
+  border: 1px solid var(--soln-base-border);
+  border-radius: 10px;
+  background: var(--soln-base-bg);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+}
+
+.tenant-chat-composer--mobile .soln-base-composer-shell:focus-within::before {
+  border-color: var(--soln-base-border-strong);
+}
+
+.tenant-chat-composer--mobile .soln-base-composer-input {
+  --tenant-chat-composer-input-padding: 10px 8px 10px 12px;
+
+  grid-column: 2;
+  grid-row: var(--chat-input-row);
+  min-width: 0;
+  min-height: 46px;
+  max-height: 202px;
+  padding: var(--tenant-chat-composer-input-padding);
+  background: transparent;
+  font-size: 16px;
+  line-height: 26px;
+}
+
+.tenant-chat-composer--mobile .soln-base-composer-actions,
+.tenant-chat-composer--mobile .soln-base-composer-actions-left,
+.tenant-chat-composer--mobile .soln-base-composer-actions-right {
+  display: contents;
+}
+
+.tenant-chat-composer--mobile .tenant-chat-sticker-picker__trigger,
+.tenant-chat-composer--mobile .soln-base-composer-attach {
+  grid-row: var(--chat-input-row);
+  width: 42px;
+  height: 46px;
+  padding: 0;
+}
+
+.tenant-chat-composer--mobile .tenant-chat-sticker-picker__trigger {
+  grid-column: 3;
+  width: 42px;
+  border: 0;
+  background: transparent;
+  color: var(--soln-base-text);
+  box-shadow: none;
+}
+
+.tenant-chat-composer--mobile .tenant-chat-sticker-picker__trigger > svg {
+  width: 23px;
+  height: 23px;
+}
+
+.tenant-chat-composer--mobile .soln-base-composer-attach {
+  grid-column: 1;
+  width: 46px;
+}
+
+.tenant-chat-composer--mobile .tenant-chat-sticker-picker__trigger:hover {
+  color: var(--soln-base-text);
+  background: transparent;
+}
+
+.tenant-chat-composer--mobile .tenant-chat-composer__reply,
+.tenant-chat-composer--mobile .tenant-chat-composer__attachments {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin-bottom: 8px;
+}
+
+.tenant-chat-composer--mobile
+  .soln-base-composer-shell:has(.tenant-chat-composer__reply):has(
+    .tenant-chat-composer__attachments
+  ) {
+  --chat-input-row: 3;
+}
+
+.tenant-chat-composer--mobile
+  .soln-base-composer-shell:has(.tenant-chat-composer__reply)
+  .tenant-chat-composer__attachments {
+  grid-row: 2;
+}

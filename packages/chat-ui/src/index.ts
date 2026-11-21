@@ -5,6 +5,7 @@ export { ChatMessageLayout, type ChatMessageLayoutProps } from './ChatMessageLay
 export { ChatMessageContent, ChatMessagePayload, ChatMessageQuote, useChatMessageColors, type ChatMessageContentProps } from './ChatMessageContent';
 export { ChatAttachmentGroup, groupChatAttachments } from './ChatAttachmentGroup';
 export { useChatCompactComposer } from './useChatCompactComposer';
+export { useChatMessageLongPress } from './useChatMessageLongPress';
 export { SolnSpin, type SolnSpinProps } from './SolnSpin';
 export { ChatReactionMenu } from './ChatReactionMenu';
 export { ANONYMOUS_VISITOR_AVATAR_URL, getDefaultMemberAvatarUrl, type MemberGender } from './default-avatars';

@@ -23,6 +23,8 @@ The included UI matches the website: bottom-right launcher, dark panel, green se
 
 To embed it into an existing Next.js site, copy `src/components/website-chat`, `src/components/feedback`, `src/lib/website-chat-*` and `public` assets. Preserve local package sources/dependencies or publish them through your own package workflow. Add the three `@soln/chat-ui` CSS imports and `AppMessageProvider`/`WebsiteChatWidget` from `src/app/layout.tsx`. Merge `@/*`, `transpilePackages` and the shared CSS/feedback styles into your application configuration. The sample page is optional.
 
+On mobile, the launcher opens fullscreen with a top-right close button. The shared mobile composer, recording controls and long-press message menu are included. The attachment action is a transparent circular plus button; when the entry allows no file uploads, it disappears and the input expands left. Keyboard resizing and bottom safe-area spacing are handled by the widget.
+
 # 中文说明
 
 这是包含官网聊天原始 UI 的独立 Next.js 项目，附带共享 UI、浏览器 SDK 和协议源码。本地 npm workspaces 已包含 `@soln` 包，无需访问私有 npm 仓库。使用 Node.js 22.16+，按上方命令安装、复制环境文件后填写租户地址和入口 ID，即可启动。
@@ -32,3 +34,5 @@ To embed it into an existing Next.js site, copy `src/components/website-chat`, `
 聊天组件直接取自官网，包含右下角按钮、深色面板、绿色发送气泡、默认问候、头像、引用、右键菜单、回应与删除、附件、Unicode 表情和语音录制。媒体权限跟随入口配置。当前官网 UI 没有位置和系统贴纸发送器，相关 SDK 写法见配套文档和无 UI 示例。结束仅结束本轮，居中显示系统消息；双方仍可在同一身份和历史中继续发送。游客凭证在当前网站的 localStorage 保存，最长有效期 30 天。项目不包含租户凭证、本地环境文件或业务数据。
 
 接入已有 Next.js 站点时，复制上方列出的组件、文案和资源，保留三个共享包及其依赖，合并路径别名、包转译、全局 CSS，并按 `src/app/layout.tsx` 挂载全局提示和聊天入口即可，不必复制示例首页。
+
+移动端点击悬浮按钮后全屏打开，右上角关闭，复用系统移动端输入布局、录音控件和消息长按菜单。附件使用透明底的圆形加号按钮；入口未允许任何文件上传类型时隐藏按钮，输入框向左补满。组件已处理键盘高度变化和底部安全区间距。

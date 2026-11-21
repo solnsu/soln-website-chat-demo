@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from 'antd';
 import type { AnonymousChatMessage } from '@soln/chat-sdk';
-import { ChatMessageContent, ChatMessageLayout, SolnSpin } from '@soln/chat-ui';
+import { ChatMessageContent, ChatMessageLayout, SolnSpin, useChatMessageLongPress } from '@soln/chat-ui';
 import type { WebsiteChatCopy } from '@/lib/website-chat-copy';
 import type { WebsiteChatConfig } from '@/lib/website-chat-config';
 import { useWebsiteChat } from './useWebsiteChat';
@@ -15,8 +15,8 @@ import { WebsiteChatReactions } from './WebsiteChatReactions';
 import { WebsiteChatMessageTime } from './WebsiteChatMessageTime';
 import styles from './WebsiteChatWidget.module.css';
 
-export default function WebsiteChatPanel({ config, active, copy, locale }: {
-  config: WebsiteChatConfig; active: boolean; copy: WebsiteChatCopy; locale: string;
+export default function WebsiteChatPanel({ config, active, copy, locale, mobile = false }: {
+  config: WebsiteChatConfig; active: boolean; copy: WebsiteChatCopy; locale: string; mobile?: boolean;
 }) {
   const chat = useWebsiteChat(config, active);
   const scroll = useRef<HTMLDivElement>(null);
@@ -24,6 +24,7 @@ export default function WebsiteChatPanel({ config, active, copy, locale }: {
   const follow = useRef(true);
   const [greetedConversationId, setGreetedConversationId] = useState<string | null>(null);
   const conversationId = chat.session?.conversationId;
+  const longPress = useChatMessageLongPress(mobile && active, conversationId);
   const showGreeting = Boolean(conversationId && greetedConversationId === conversationId);
   const newest = chat.messages.at(-1)?.id;
   const clock = new Intl.DateTimeFormat(locale, { hour: '2-digit', minute: '2-digit' });
@@ -50,7 +51,7 @@ export default function WebsiteChatPanel({ config, active, copy, locale }: {
   const unavailable = Boolean(chat.error === 'expired' || !chat.session?.canSendMessages);
   useEffect(() => { setReply(null); }, [conversationId]);
   return <>
-    <div className={`${styles.messages} cp-sidebar-scrollbar`} ref={scroll} data-chat-media-scroll aria-busy={chat.loading}
+    <div className={`${styles.messages} cp-sidebar-scrollbar${mobile ? ' tenant-chat-messages--mobile' : ''}`} ref={scroll} data-chat-media-scroll aria-busy={chat.loading}
       onScroll={() => { const node = scroll.current; if (node) follow.current = node.scrollHeight - node.scrollTop - node.clientHeight < 64; }}>
       <div role="log" aria-live="polite" aria-relevant="additions text">
         {showGreeting ? <ChatMessageLayout own={false} className={styles.greeting} avatar={<img src="/workspace-app-icons/luna/luna.png" width={36} height={36} alt="" aria-hidden="true" />}>
@@ -73,8 +74,10 @@ export default function WebsiteChatPanel({ config, active, copy, locale }: {
             && reaction.sender.id === chat.session?.visitor.id)?.emoji;
           return <WebsiteChatMessageMenu key={`${conversationId}:${message.id}`} message={message} active={active} own={own}
             unavailable={unavailable} locale={locale} copy={copy} ownEmoji={ownEmoji}
+            mobile={mobile} mobileOpen={longPress.openMessageId === message.id}
+            onMobileOpenChange={open => longPress.setOpenMessageId(open ? message.id : null)}
             onReply={() => setReply(message)} onReact={emoji => void chat.react(message.id, emoji)}>
-          <ChatMessageLayout own={own} className={styles.message} data-own={own} data-message-id={message.id}
+          <ChatMessageLayout {...longPress.bind(message.id)} own={own} className={styles.message} data-own={own} data-message-id={message.id}
             avatar={!own ? <WebsiteChatAvatar sender={message.sender} readMedia={chat.readMedia} /> : null}
             sender={!own ? <span className={styles.sender}>{message.sender.name}</span> : null}
             actions={<WebsiteChatMessageTime body={message.body} createdAt={message.createdAt}
@@ -96,7 +99,7 @@ export default function WebsiteChatPanel({ config, active, copy, locale }: {
       {copy.handoff}
     </p> : null}
     {chat.error === 'expired' ? <div className={styles.newConversation}>
-      <Button onClick={() => void chat.startNew()}>{copy.startNew}</Button>
+      <Button className={styles.newConversationButton} size="large" onClick={() => void chat.startNew()}>{copy.startNew}</Button>
     </div> : <WebsiteChatComposer chat={chat} active={active} copy={copy} locale={locale} reply={reply} clearReply={() => setReply(null)} onSend={() => { follow.current = true; }} />}
   </>;
 }
