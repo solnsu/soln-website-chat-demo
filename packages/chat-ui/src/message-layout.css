@@ -1,0 +1,35 @@
+.tenant-chat-message {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.tenant-chat-message.is-own {
+  gap: 10px;
+  justify-content: flex-end;
+  padding-left: 48px;
+}
+
+.tenant-chat-message.is-peer {
+  gap: 10px;
+  justify-content: flex-start;
+  padding-right: 48px;
+}
+
+.tenant-chat-message__content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: min(680px, 100%);
+  gap: 4px;
+}
+
+.tenant-chat-message.is-own .tenant-chat-message__content {
+  justify-items: end;
+}
+
+.tenant-chat-message.is-peer .tenant-chat-message__content {
+  justify-items: start;
+}

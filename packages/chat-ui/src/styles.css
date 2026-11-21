@@ -1,0 +1,62 @@
+@import "./composer.css";
+@import "./composer-drafts.css";
+@import "./message-layout.css";
+@import "./message-content.css";
+@import "./media.css";
+@import "./voice.css";
+@import "./voice-message.css";
+
+.tenant-chat-message__bubble {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+  gap: 6px;
+  overflow-wrap: anywhere;
+  border-radius: 12px;
+  padding: 8px 16px;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.tenant-chat-message__collapsible-content {
+  display: grid;
+  min-width: 0;
+  gap: 6px;
+}
+
+.tenant-chat-message__collapsible-content.is-collapsed {
+  position: relative;
+  max-height: var(--tenant-chat-message-collapsed-max-height);
+  overflow: hidden;
+}
+
+.tenant-chat-message__content-toggle {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  line-height: 18px;
+  opacity: 0.82;
+}
+
+.tenant-chat-message__content-toggle:hover,
+.tenant-chat-message__content-toggle:focus-visible {
+  opacity: 1;
+}
+
+.soln-chat-text-input {
+  width: 100%;
+  min-width: 0;
+  resize: none;
+  font: inherit;
+}

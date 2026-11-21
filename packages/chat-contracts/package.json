@@ -1,0 +1,26 @@
+{
+  "name": "@soln/chat-contracts",
+  "version": "1.0.0",
+  "description": "Versioned public Soln chat wire contracts and runtime validation",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "libphonenumber-js": "1.13.13",
+    "zod": "4.6.7"
+  }
+}

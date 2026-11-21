@@ -1,0 +1,75 @@
+.tenant-chat-reaction-badge {
+  display: inline-flex;
+  justify-self: start;
+  width: max-content;
+  opacity: 0;
+  transform: translateY(-3px) scale(.7);
+  transform-origin: left bottom;
+  transition: opacity 160ms ease, transform 180ms ease;
+  pointer-events: none;
+}
+
+.tenant-chat-whatsapp-reactions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tenant-chat-whatsapp-reaction {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  border: 1px solid;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 20px;
+  line-height: 22px;
+}
+
+.tenant-chat-reaction-badge[data-visible] {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.tenant-chat-whatsapp-reaction__avatar {
+  position: relative;
+  display: inline-flex;
+  width: 22px;
+  height: 22px;
+}
+
+.tenant-chat-whatsapp-reaction__remove {
+  position: absolute;
+  inset: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--ant-color-bg-container);
+  color: var(--ant-color-error);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 160ms ease;
+}
+
+.tenant-chat-whatsapp-reaction:hover .tenant-chat-whatsapp-reaction__remove:not(:disabled),
+.tenant-chat-whatsapp-reaction__remove:focus-visible {
+  opacity: 1;
+}
+
+.tenant-chat-whatsapp-reaction__remove:focus-visible {
+  outline: 2px solid var(--ant-color-primary);
+  outline-offset: 2px;
+}
+
+.tenant-chat-whatsapp-reaction__remove:disabled {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tenant-chat-reaction-badge, .tenant-chat-whatsapp-reaction__remove { transition: none; }
+}

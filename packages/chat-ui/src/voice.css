@@ -1,0 +1,164 @@
+.tenant-chat-recording-actions {
+  position: relative;
+  flex: 1 1 0;
+  justify-content: flex-end;
+  gap: 6px;
+}
+
+.tenant-chat-recording-pill {
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 34px;
+  align-items: center;
+  gap: 6px;
+  color: var(--soln-base-text-secondary);
+}
+
+.tenant-chat-recording-delete.soln-base-icon-button {
+  color: var(--ant-color-error, #dc2626);
+}
+
+.tenant-chat-recording-stop.soln-base-icon-button {
+  width: 34px;
+  height: 34px;
+  color: var(--soln-base-text);
+}
+
+.tenant-chat-recording-delete.soln-base-icon-button:hover:not(:disabled) {
+  background: var(--ant-color-error-bg, #fef2f2);
+  color: var(--ant-color-error-hover, #b91c1c);
+}
+
+.tenant-chat-recording-wave {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 34px;
+  color: var(--soln-base-text-secondary);
+}
+
+.tenant-chat-recording-seek {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.tenant-chat-recording-seek:disabled { cursor: default; }
+
+.tenant-chat-recording-wave:has(.tenant-chat-recording-seek:focus-visible) {
+  outline: 2px solid var(--soln-base-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.tenant-chat-recording-playhead {
+  position: absolute;
+  top: 5px;
+  bottom: 5px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--soln-base-text);
+  transform: translateX(-1px);
+  pointer-events: none;
+}
+
+.tenant-chat-recording-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.tenant-chat-recording-time {
+  flex: 0 0 auto;
+  min-width: 40px;
+  color: var(--soln-base-text-secondary);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"] {
+  --chat-input-row: 2;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 42px 56px;
+  align-items: end;
+  gap: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"]::before {
+  content: "";
+  z-index: -1;
+  align-self: stretch;
+  grid-column: 1 / -1;
+  grid-row: var(--chat-input-row);
+  border: 1px solid var(--soln-base-border);
+  border-radius: 10px;
+  background: var(--soln-base-bg);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 6%);
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"]:focus-within {
+  box-shadow: none;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"]:focus-within::before {
+  border-color: var(--soln-base-border-strong);
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"] > :is(.soln-chat-text-input, .tenant-chat-group-composer-input) {
+  display: none;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"] :is(.soln-base-composer-actions, .soln-base-composer-actions-left, .soln-base-composer-actions-right) {
+  display: contents;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"] .tenant-chat-recording-delete {
+  grid-column: 1;
+  grid-row: var(--chat-input-row);
+  width: 46px;
+  height: 46px;
+  padding: 0;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"] .tenant-chat-recording-pill {
+  grid-column: 2;
+  grid-row: var(--chat-input-row);
+  box-sizing: border-box;
+  height: 46px;
+  padding: 0 4px 0 0;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"] .tenant-chat-recording-stop {
+  grid-column: 3;
+  grid-row: var(--chat-input-row);
+  place-self: center;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"] .soln-base-composer-send {
+  grid-column: 4;
+  grid-row: var(--chat-input-row);
+  width: 44px;
+  height: 30px;
+  margin: 8px 8px 8px 4px;
+  border-radius: 999px;
+  padding: 0;
+}
+
+.soln-base-composer-shell[data-chat-composer-layout="compact"][data-chat-composer-voice="true"] > :is(.tenant-chat-composer__reply, .tenant-chat-composer__attachments) {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  margin-bottom: 8px;
+}
+

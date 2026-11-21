@@ -1,0 +1,71 @@
+.tenant-chat-voice {
+  --tenant-chat-voice-max-width: 272px;
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  grid-template-rows: minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+  height: 1lh;
+  width: min(calc(128px + (var(--tenant-chat-voice-max-width) - 128px) * var(--tenant-chat-voice-width-ratio)), var(--tenant-chat-voice-max-width));
+  max-width: 100%;
+  min-width: 0;
+}
+.tenant-chat-messages--mobile .tenant-chat-message__content:has(.tenant-chat-voice) {
+  flex: 1;
+  container-type: inline-size;
+}
+.tenant-chat-messages--mobile .tenant-chat-voice {
+  --tenant-chat-voice-max-width: calc(100cqw - 32px);
+}
+.tenant-chat-voice--pending { position: relative; }
+.tenant-chat-voice audio { display: none; }
+.tenant-chat-voice__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.tenant-chat-voice__play:disabled { cursor: default; opacity: 0.5; }
+.tenant-chat-voice__play[data-failed] { color: var(--ant-color-error); }
+.tenant-chat-voice__waveform { position: relative; min-width: 0; min-height: 0; height: 100%; }
+.tenant-chat-voice__waveform svg { display: block; width: 100%; height: 100%; }
+.tenant-chat-voice__skeleton {
+  position: absolute;
+  inset: 4px 0;
+  border-radius: 4px;
+  background: linear-gradient(90deg, color-mix(in srgb, currentColor 12%, transparent) 25%, color-mix(in srgb, currentColor 28%, transparent) 50%, color-mix(in srgb, currentColor 12%, transparent) 75%);
+  background-size: 200% 100%;
+  animation: tenant-chat-voice-loading 1.4s ease-in-out infinite;
+}
+@keyframes tenant-chat-voice-loading {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tenant-chat-voice__skeleton { animation: none; }
+}
+.tenant-chat-voice__waveform input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.tenant-chat-voice__waveform input:disabled { cursor: default; }
+.tenant-chat-voice__waveform:has(input:focus-visible) { outline: 2px solid currentColor; outline-offset: 3px; border-radius: 3px; }
+.tenant-chat-voice__time { min-width: 30px; font-size: 12px; line-height: 1; font-variant-numeric: tabular-nums; text-align: end; white-space: nowrap; }
+
+.tenant-chat-voice-waveform {
+  display: block;
+  width: 100%;
+  height: 100%;
+}

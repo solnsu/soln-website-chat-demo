@@ -1,0 +1,117 @@
+.tenant-chat-message__payload {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: inherit;
+  min-width: 0;
+  max-width: 100%;
+  gap: 4px;
+}
+
+.tenant-chat-message__indicators {
+  position: absolute;
+  inset-inline-end: calc(100% + 4px);
+  bottom: 2px;
+  display: flex;
+  align-items: center;
+  width: max-content;
+}
+
+.tenant-chat-message__bubble--with-status {
+  position: relative;
+}
+
+.tenant-chat-message__reply-reference {
+  display: flex;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-left: 3px solid var(--chat-reply-primary);
+  border-radius: 7px;
+  background: var(
+    --tenant-chat-reply-background,
+    var(--chat-reply-background)
+  );
+  padding: 7px 10px;
+  color: var(--chat-reply-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.tenant-chat-message.is-own .tenant-chat-message__reply-reference {
+  justify-self: end;
+}
+
+.tenant-chat-message__reply-copy {
+  display: grid;
+  min-width: 0;
+  flex: 1;
+  gap: 2px;
+}
+
+.tenant-chat-message__reply-copy strong,
+.tenant-chat-message__reply-copy > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tenant-chat-message__reply-copy strong {
+  flex: 0 0 auto;
+  color: var(--chat-reply-primary);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.tenant-chat-message__reply-copy > span {
+  min-width: 0;
+}
+
+.tenant-chat-message__reply-copy > span {
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.tenant-chat-message__reply-image,
+.tenant-chat-composer__reply-image {
+  position: relative;
+  display: block;
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  overflow: hidden;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--soln-base-text) 4%, var(--soln-base-bg));
+  color: var(--ant-color-text-tertiary);
+}
+
+
+
+.tenant-chat-message__bubble.tenant-chat-message__media-bubble {
+  padding: 0;
+  overflow: hidden;
+}
+
+.tenant-chat-message__media-bubble > .tenant-chat-reaction-badge {
+  margin: 0 8px 8px;
+}
+
+.tenant-chat-message.is-own
+  .tenant-chat-message__bubble
+  .tenant-chat-message__reply-reference {
+  border-left-color: currentColor;
+  background: rgb(255 255 255 / 18%);
+  color: inherit;
+}
+
+.tenant-chat-message.is-own
+  .tenant-chat-message__bubble
+  .tenant-chat-message__reply-copy
+  strong {
+  color: inherit;
+}
+
